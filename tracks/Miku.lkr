@@ -1,0 +1,249 @@
+# header
+0 title Miku
+0 artist Anamanaguchi
+0 credit LemonKat
+0 license CC-BY-NC 4.0
+0 difficulty 1
+0 desc oo ee oo
+0 audio audio/Miku_Anamanaguchi_(Game_Version_-_VIRTUAL_SINGER).ogg https://static.wikia.nocookie.net/projectsekai/images/5/5b/Miku_Anamanaguchi_%28Game_Version_-_VIRTUAL_SINGER%29.ogg/revision/latest?cb=20220310053953
+0 preview 30 53
+0 tempo 128
+
+2 tempo 128
+
+# (oo-ee-oo)
+0 note a
++2 note d
+4 note w
++1 note s
+
+# (oo-ee-oo)
+8 note a
++2 note d
+12 note w
++1.5 note s
+
+# (oo-ee-oo)
+16 note d
++2 note a
+20 note w
++1.5 note s
+
+# (oo-ee-oo)
+24 note d
++2 note a
+28 note w
++1.5 note s
+
+# verse 1
+# Miku, Miku, you can call me Miku
+32 note a
++2 note d
+36 note w
++1 note a
++1 note d
++1 note s
+
+# Blue hair, blue tie, hiding in your wi-fi
+40 note d
++2 note a
+44 note w
++1 note a
++1 note d
++1 note s
+
+# Open secrets, anyone can find me
+48 note a
++2 note d
+52 note w
++1 note a
++1 note d
++1 note s
+
+# Hear your music running through my mind
+56 note d
++2 note a
+60 note w
++1 note s
++1 note ad
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+64 note a
++1 note s
++1 note d
++1 note s
+68 note w
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+72 note a
++1 note s
++1 note d
++1 note s
+76 note w
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+80 note a
++1 note s
++1 note d
++1 note s
+84 note w
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+88 note a
++1 note s
++1 note d
++1 note s
+92 note w
++0.75 note a
++0.75 note d
+
+# I'm on top of the world because of you
+96 note w
++1 note d
++1 note a
++1.5 note s
+101 note d
++1 note w
++1 note a
+
+# All I wanted to do is follow you
+104 note s
++1 note a
++1 note d
++1.5 note w
+109 note a
++1 note s
++1 note d
+
+# I'll keep singing along to all of you
+112 note w
++1 note d
++1 note a
++1.5 note s
+117 note d
++1 note w
++1 note a
+
+# I'll keep singing along
+120 note s
++1 note a
++1 note d
++1.5 note w
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+128 note a
++1 note w
++1 note d
++1 note w
+132 note s
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+136 note a
++1 note w
++1 note d
++1 note w
+140 note s
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+144 note a
++1 note w
++1 note d
++1 note w
+148 note s
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+152 note a
++1 note w
++1 note d
++1 note w
+156 note s
++0.75 note a
++0.75 note d
+
+# I'm on top of the world because of you
+160 note s
++1 note d
++1 note a
++1.5 note w
+165 note d
++1 note s
++1 note a
+
+# I do nothing that they could never do
+168 note w
++1 note a
++1 note d
++1.5 note s
+173 note a
++1 note w
++1 note d
+
+# I'll keep playing along to all of you
+176 note s
++1 note d
++1 note a
++1.5 note w
+180 note d
++1 note s
++1 note a
+
+# I'll keep playing along
+184 note w
++1 note a
++1 note d
++1.5 note s
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+192 note a
++1 note s
++1 note d
++1 note s
+196 note w
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+200 note a
++1 note s
++1 note d
++1 note s
+204 note w
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+208 note a
++1 note s
++1 note d
++1 note s
+212 note w
++0.75 note a
++0.75 note d
+
+# I'm thinking Miku, Miku (oo-ee-oo)
+216 note a
++1 note s
++1 note d
++1 note s
+220 note w
++0.75 note a
++0.75 note d
+
+# rap section has been cut
+223.5 tempo 60
+
+
+
+

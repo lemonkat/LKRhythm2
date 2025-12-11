@@ -1,0 +1,283 @@
+# header
+0 title Lag Train
+0 artist inabakumori
+0 credit LemonKat
+0 license CC-BY-NC 4.0
+0 difficulty 3
+0 desc an anthem of modern disassociation
+0 audio audio/Lag_Train_(Game_Version_-_VIRTUAL_SINGER).ogg https://static.wikia.nocookie.net/projectsekai/images/b/bd/Lag_Train_%28Game_Version_-_VIRTUAL_SINGER%29.ogg/revision/latest?cb=20240229192926
+0 preview 21 47
+0 tempo 147
+
+# start
+8 note w
++2 note s
++1.5 note a
+
+16 note w
++2 note s
++1.5 note d
+
+# chorus 1
+24 note s
++1 note a
++2 note d
+29 note w
++2 note s
+32 note a
++2 note d
++1.5 note w
+38.5 note s
+
+40 note s
++1 note a
++2 note d
+45 note w
++2 note s
+48.5 note a
++1.5 note a
+
+52.5 note w
++1 note a
++1 note d
+
+# chorus 2
+56 note s
++1 note a
++1 note a
++1 note d
+60 note d
++1 note w
++1 note w
+
++1 note s
+64 note a
++1 note a
++1 note d
++1 note d
++0.5 note w
+68.5 note w
++2 note s
+
+72 note s
++1 note a
++1 note a
++1 note d
+76 note d
++1 note w
++1 note w
+
++1 note s
+80.5 note a
++1.5 note a
+
+84 note w
++2 note s
++1.5 note ad
+
+# melody thing
+88 note w
++1 note s
++1 note a
++1 note d
+
+92.5 note w
++1.5 note a
++1 note d
+
+96 note w
++1 note s
++1 note d
++1 note a
+
+100.5 note w
++1.5 note s
++1 note s
+
+# first verse
+104 note w
++1 note w
++1 note a
+
+109.5 note d
++1.5 note s
+
+112 note w
++1 note a
++1 note d
++1.5 note s
+117.5 note w
+
+120 note s
++1 note s
++1 note d
+
+125.5 note a
++1.5 note w
+
+128 note s
++1 note a
++1 note d
++1.5 note w
+132.5 note a
++1 note d
+
+# that thing
++1.5 note a
+137 note d
++2 note w
+141 note s
++2.5 note w
+145 note a
++2 note s
+148.5 note d
+
++2.5 note a
+153 note d
++2 note w
+157 note s
++2.5 note w
+161 note s
++2 note w
+164.5 note w
++1 note w
++1.5 note ad
+
+# chorus 3
+168 note s
++1 note a
++2 note d
+173 note w
++2 note s
+
+176 note a
++1 note a
++1 note d
++1 note d
++0.5 note w
+180.5 note w
++2 note s
+
+184 note s
++1 note a
++1 note a
++1 note d
+188 note d
++1 note w
++1 note w
+
++1 note s
+192.5 note a
++1.5 note a
+
+196 note w
++2 note s
++1.5 note ad
+
+
+# beat drop?
+200 note w
++2 note s
+204 note d
++2 note a
+
+# chorus 4
+208 note w
++1 note w
++1 note a
++1 note d
+212 note s
++1 note s
++1 note w
+
++1 note s
+216 note a
++1 note a
++1 note d
++1.5 note w
+220.5 note d
++1 note a
+
+224 note s
++1 note a
++1 note a
++1 note d
+228 note d
++1 note w
++1 note w
+
++1 note s
+232.5 note a
++1.5 note a
+
+236 note w
++2 note s
++1.5 note ad
+
+# chorus 5
+240 note w
++1 note w
++1 note a
++1 note d
+244 note s
++1 note s
++1 note w
+
++1 note s
+248 note a
++1 note a
++1 note d
++1.5 note w
+252.5 note d
++1 note a
+
+256 note s
++1 note a
++1 note a
++1 note d
+260 note d
++1 note w
++1 note w
+
++1 note s
+264.5 note a
++1.5 note a
+
+268 note w
++2 note s
++1.5 note ad
+
+# last melody thing
+272 note w
++1 note s
++1 note a
++1 note d
+
+276.5 note w
++1.5 note a
++1 note d
+
+280 note w
++1 note s
++1 note d
++1 note a
+
+284.5 note w
++1.5 note d
++1 note a
+
+288 note w
++1 note s
++1 note a
++1 note d
+
+292.5 note w
++1.5 note a
++1 note d
+
+296 note w
++1 note s
++1 note w
++1 note ad
+
+312 tempo 60

@@ -1,0 +1,18 @@
+CREDITS
+Software, Hardware, & Art/Design: LemonKat
+Advisors: K.L., K.B.
+Helpful internet people: std::kagami_ohayo, engine_machiner
+
+Music Artists: niki, inabakumori, Anamanaguchi
+
+This project would not have been possible without many others: 
+The devlopers of every Python library, and every dependency;
+those who built the tools to let us make music;
+even the people at the cardboard factory.
+
+And in general, every artist, every engineer, every maker who ever
+was. All of your works have built up to this very moment and
+countless others. May we ascend on these wings of silicon and steel,
+wings we built by hand.
+
+[press any button to close]

@@ -1,0 +1,221 @@
+# header
+0 title WAVE
+0 artist niki
+0 credit LemonKat
+0 license CC-BY-NC 4.0
+0 difficulty 2
+0 desc a high-velocity fusion of rock and electronic
+0 audio audio/WAVE_(Game_Version_-_VIRTUAL_SINGER).ogg https://static.wikia.nocookie.net/projectsekai/images/9/99/WAVE_%28Game_Version_-_VIRTUAL_SINGER%29.ogg/revision/latest?cb=20240813114307
+0 preview 28 53
+0 tempo 130
+
+4 note w # start
++4 note w
+12 note w
++4 note w
++3 note ad # beat drop
+
+20 note w
++1 note s
++1 note w
++1 note a
+24 note w
++1 note d
++1 note s
++1 note d
+
+28 note w
++1 note s
++1 note w
++1 note a
+32 note w
++1 note d
++1 note s
++1 note d
+
+# melody start
+36 note a
++2 note w
+40 note d
++1.75 note s
+
+44 note a
++2 note w
+48 note d
++2 note s
+
+52 note a
++2 note s
+56 note d
++2 note w
+
+60.5 note a
++1.5 note s
+64 note d
++2 note w
+
+68 note w
++1.5 note a
+72 note ws
++1.5 note ad
+
+# chorus
+76 note a
++0.75 note a
++0.75 note s
+
+80 note d
++0.75 note d
++0.75 note s
+
+84 note w
++2.0 note s
+
+88 note w
++2.0 note a
++0.75 note d
+
+92 note w
++2.0 note d
++1.0 note a
+
+96 note w
++2.0 note s
+
+100 note w
++2.0 note a
++1.0 note s
+
+104 note w
++2.0 note d
++1.0 note s
+
+108 note a
++2.0 note d
+
+112 note w
++1.0 note s
++1.0 note w
+
+# pause thing
+116 note a
++3.5 note d
+123.5 note a
+126.5 note d
++1.0 note d
+128.5 note w
++1.0 note s
++1.0 note a
++0.5 note d
+
+132 note w
++1 note s
++1 note w
++1 note a
+136 note w
++1 note d
++1 note s
++1 note d
+
+140 note w
++1 note s
++1 note w
++1 note a
+144 note w
++1 note d
++1 note s
++1 note d
+
+148 note w
++1.5 note a
+152 note ws
++1.5 note ad
+
+# chorus 2
+156 note a
++0.75 note a
++0.75 note s
+
+160 note d
++0.75 note d
++0.75 note s
+
+164 note w
++2.0 note s
+
+168 note w
++2.0 note a
++0.75 note d
+
+172 note w
++2.0 note d
++1.0 note a
+
+176 note w
++2.0 note s
+
+180 note w
++2.0 note a
++1.0 note s
+
+184 note w
++2.0 note d
++1.0 note s
+
+188 note a
++2.0 note d
+
+192 note w
++1.0 note s
++1.0 note w
+
+# last verse repeat
+196 note a
++2.0 note d
+
+200 note w
++1.0 note s
++1.0 note ad
+
+
+# outro
+204 note a
++0.75 note a
++0.75 note s
+
+208 note d
++0.75 note d
++0.75 note s
+
+212 note w
++1 note s
++1 note w
++1 note a
+216 note w
++1 note d
++1 note s
++1 note d
+
+220 note a
++0.75 note a
++0.75 note s
+
+224 note d
++0.75 note d
++0.75 note s
+
+228 note w
++1 note s
++1 note w
++1 note a
+232 note w
++1 note d
++1 note s
++1 note d
+
+236 note w
++2 note w
+240 note w
++2 note w
+
+253 tempo 60

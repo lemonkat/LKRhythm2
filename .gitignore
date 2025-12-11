@@ -1,3 +1,10 @@
+# game caches
+audio/*.ogg
+vis_cache/*.npy
+
+# macos stuff
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
