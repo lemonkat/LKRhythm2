@@ -26,11 +26,10 @@ class FPSCap(dg.Module):
         self.t_last = time.time()
 
     def _tick(self) -> None:
-        t_cur = time.time()
-        self.data[self.idx] = t_cur - self.t_last
+        self.data[self.idx] = time.time() - self.t_last
         time.sleep(max(0, 1 / self.settings.fps - np.mean(self.data)))
-        self.t_last = time.time()
         self.idx = (self.idx + 1) % 10
+        self.t_last = time.time()
 
 class LevelSelectModule(dg.Module):
     def __init__(self, parent: dg.Module, settings: settings.SettingsModule) -> None:
@@ -200,3 +199,4 @@ if __name__ == "__main__":
         while lkr_module.running:
             main_module.tick()
             main_module.draw()
+    print("Thanks for playing!")
