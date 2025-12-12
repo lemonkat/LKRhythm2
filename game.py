@@ -1,5 +1,7 @@
+import time
 import textwrap
 
+import numpy as np
 import pygame as pg
 
 import display_grid as dg
@@ -15,8 +17,20 @@ with open("about.txt") as f:
 with open("credits.txt") as f:
     credits_text = f.read()
 
-# class FPSCap(dg.Module):
-#     def __init__(self, parent: dg.Module, )
+class FPSCap(dg.Module):
+    def __init__(self, parent: dg.Module, settings: settings.SettingsModule) -> None:
+        super().__init__(parent)
+        self.settings = settings
+        self.idx = 0
+        self.data = np.zeros(10, dtype=np.float32)
+        self.t_last = time.time()
+
+    def _tick(self) -> None:
+        t_cur = time.time()
+        self.data[self.idx] = t_cur - self.t_last
+        time.sleep(max(0, 1 / self.settings.fps - np.mean(self.data)))
+        self.t_last = time.time()
+        self.idx = (self.idx + 1) % 10
 
 class LevelSelectModule(dg.Module):
     def __init__(self, parent: dg.Module, settings: settings.SettingsModule) -> None:
@@ -161,6 +175,8 @@ class LKRhythmMain(dg.Module):
                 "QUIT": self.quit,
             }
         )
+
+        self.fps_cap = FPSCap(self, self.settings)
 
         self.running = True
 

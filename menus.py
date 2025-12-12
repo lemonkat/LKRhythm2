@@ -7,7 +7,7 @@ class SelectorModule(dg.Module):
         self, 
         parent: dg.Module,
         box: tuple[int, int, int, int],
-        options: dict[str, typing.Callable[[], None] | tuple[typing.Callable[[], None], typing.Callable[[], None]]],
+        options: dict[str, typing.Union[typing.Callable[[], None], tuple[typing.Callable[[], None], typing.Callable[[], None]]]],
         ptr: str = " > ",
     ) -> None:
         super().__init__(parent, box)

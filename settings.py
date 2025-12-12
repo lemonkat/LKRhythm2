@@ -39,10 +39,12 @@ class SettingsModule(dg.Module):
         self.spd = min(20, self.spd + 1)
 
     def _fps_down(self) -> None:
-        self.fps = {30: 30, 60: 30, 120: 60}[self.fps]
+        # self.fps = {30: 30, 60: 30, 120: 60}[self.fps]
+        self.fps = {30: 30, 60: 30}[self.fps]
 
     def _fps_up(self) -> None:
-        self.fps = {30: 60, 60: 120, 120: 120}[self.fps]
+        # self.fps = {30: 60, 60: 120, 120: 120}[self.fps]
+        self.fps = {30: 60, 60: 60}[self.fps]
 
     def _vol_down(self) -> None:
         self.vol = max(0, self.vol - 10)
