@@ -117,7 +117,7 @@ class PauseModule(dg.Module):
             {
                 "Resume": parent.start_play,
                 "Restart": parent.restart_play,
-                "Settings": parent.settings.start,
+                "Settings": lambda: (parent.settings.start(), parent.settings.selector.reset()),
                 "Quit": parent.close,
             }
         )
@@ -126,7 +126,7 @@ class PauseModule(dg.Module):
             [3, 2, 6, 14],
             {
                 "Restart": parent.restart_play,
-                "Settings": parent.settings.start,
+                "Settings": lambda: (parent.settings.start(), parent.settings.selector.reset()),
                 "Quit": parent.close,
             }
         )
@@ -236,6 +236,8 @@ class PlayerModule(dg.Module):
     
     def stop_play(self) -> None:
         self.pause_menu.start()
+        self.pause_menu.selector_a.reset()
+        self.pause_menu.selector_b.reset()
         self.track_player.pause()
         self.t_start = float("inf")
 

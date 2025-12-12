@@ -155,7 +155,7 @@ class LKRhythmMain(dg.Module):
             [12, 9, 17, 50],
             {
                 "PLAY": lambda: (self.level_select.start(), self.level_select.preview()),
-                "SETTINGS": self.settings.start,
+                "SETTINGS": lambda: (self.settings.start(), self.settings.selector.reset()),
                 "ABOUT": self.about.start,
                 "CREDITS": self.credits.start,
                 "QUIT": self.quit,

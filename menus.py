@@ -14,6 +14,9 @@ class SelectorModule(dg.Module):
         self.options = list(options.items())
         self.idx = 0
         self.ptr = ptr
+
+    def reset(self) -> None:
+        self.idx = 0
     
     def _draw(self):
         i = 0
