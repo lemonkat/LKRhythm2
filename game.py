@@ -93,8 +93,7 @@ class LevelSelectModule(dg.Module):
         t_play = pg.mixer.music.get_pos() / 1000 + track.preview[0]
         vis_frame = track.vis[int(t_play * 90)]
         for i, y in enumerate(vis_frame):
-            y = int(12 * y ** 1.5)
-            self.panel_r.chars[i + 1, 2: y + 2] = ord("#")
+            self.panel_r.chars[i + 1, 2: int(12 * y ** 1.5) + 2] = ord("#")
         
     def _handle_event(self, event: dg.Event) -> None:
         if isinstance(event, dg.KeyEvent):
@@ -172,10 +171,11 @@ class LKRhythmMain(dg.Module):
         util.draw_border(self.grid)
         self.grid.stamp("title", 4, 9)
         self.grid.print("A RHYTHM GAME BY LEMONKAT", pos=(10, 9))
-        # self.grid.print("available at ", pos=(11, 9))
 
         self.grid.print("←→ select", pos=(18, 9))
         self.grid.print("↑ enter", pos=(19, 9))
+
+        self.grid.print("available at https://github.com/lemonkat/LKRhythm2", pos=(21, 9))
 
 if __name__ == "__main__":
     dg.load_graphics("assets/")

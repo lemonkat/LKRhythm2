@@ -159,7 +159,7 @@ class PauseModule(dg.Module):
                 self.grid.print("PERFECT", pos=(1, 3))
             elif track_player.combo == len(track.notes):
                 self.grid.print("FULL COMBO", pos=(1, 3))
-            elif track_player.acc >= 0.95:
+            elif track_player.acc >= 0.9:
                 self.grid.print("GREAT", pos=(1, 3))
             elif track_player.acc >= 0.6:
                 self.grid.print("GOOD", pos=(1, 3))
