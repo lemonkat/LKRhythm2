@@ -235,14 +235,15 @@ class PlayerModule(dg.Module):
         self.t_hitclear = {key: float("-inf") for key in util.KEYS}
     
     def stop_play(self) -> None:
-        self.pause_menu.start()
-        self.pause_menu.selector_a.reset()
-        self.pause_menu.selector_b.reset()
-        self.track_player.pause()
-        self.t_start = float("inf")
+        if self.pause_menu.paused:
+            self.pause_menu.start()
+            self.pause_menu.selector_a.reset()
+            self.pause_menu.selector_b.reset()
+            self.track_player.pause()
+            self.t_start = float("inf")
 
-        self.cur_msg = None
-        self.t_msgclear = -1
+            self.cur_msg = None
+            self.t_msgclear = -1
 
     def restart_play(self) -> None:
         self.track_player.pause()

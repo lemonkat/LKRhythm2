@@ -1,5 +1,6 @@
 import time
 import textwrap
+import typing
 
 import numpy as np
 import pygame as pg
@@ -148,8 +149,8 @@ class TextboxModule(dg.Module):
         return False
 
 class LKRhythmMain(dg.Module):
-    def __init__(self, parent: dg.Module) -> None:
-        super().__init__(parent)
+    def __init__(self, parent: dg.Module, box: typing.Optional[tuple[int, int, int, int]] = None) -> None:
+        super().__init__(parent, box)
 
         self.settings = settings.SettingsModule(self)
         self.settings.stop()
@@ -193,9 +194,11 @@ class LKRhythmMain(dg.Module):
         self.grid.print("available at https://github.com/lemonkat/LKRhythm2", pos=(21, 9))
 
 if __name__ == "__main__":
+    import os
     dg.load_graphics("assets/")
-    with dg.MainModule((24, 80), enforce_shape=False, mode="terminal") as main_module:
-        lkr_module = LKRhythmMain(main_module)
+    with dg.MainModule(os.get_terminal_size()[::-1], enforce_shape=False, mode="terminal") as main_module:
+        i, j = (main_module.shape[0] - 24) // 2, (main_module.shape[1] - 80) // 2
+        lkr_module = LKRhythmMain(main_module, [i, j, i + 24, j + 80])
         while lkr_module.running:
             main_module.tick()
             main_module.draw()
