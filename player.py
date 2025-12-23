@@ -1,3 +1,9 @@
+"""
+Core gameplay logic and TUI modules for the LKRhythm2 project.
+
+This module handles the timing-based note hitting system, scoring, 
+combo tracking, and the gameplay UI (note lanes, progress bar, waveforms).
+"""
 import time
 import textwrap
 import typing
@@ -10,12 +16,36 @@ import util
 import menus
 import settings
 
+# Timing windows in seconds relative to the note timestamp
 PERFECT_RANGE = -0.1, 0.1
 GOOD_RANGE = -0.25, 0.25
 FAILED_RANGE = -0.4, float("inf")
 
 class Player:
+    """
+    Handles the core rhythm game logic for a single track.
+    
+    Attributes:
+        track (util.Track): The track currently being played.
+        channels (dict[str, list[float]]): Notes grouped by key for 
+            faster lookup.
+        states (dict[util.Note, util.NoteState]): Current hit/miss status 
+            for every note.
+        state_counts (dict[util.NoteState, int]): Cumulative count of each 
+            timing result.
+        indices (dict[str, int]): Index of the next note to be hit for 
+            each lane.
+        combo (int): Current consecutive hit count.
+        best_combo (int): Maximum combo achieved during this run.
+        score (int): Cumulative player score.
+    """
     def __init__(self, track: util.Track) -> None:
+        """
+        Initializes the Player with a track and prepares audio.
+        
+        Args:
+            track (util.Track): The track data structure to play.
+        """
         self.track = track
 
         self.channels = {key: [t for t, k in track.notes if k == key] for key in util.KEYS}
@@ -40,15 +70,32 @@ class Player:
         pg.mixer.music.pause()
 
     def time(self) -> float:
+        """
+        Returns the current track playback time in seconds.
+        
+        Returns:
+            float: Current playback offset from start in seconds.
+        """
         return pg.mixer.music.get_pos() / 1000
     
     def play(self) -> None:
+        """Unpauses the track audio."""
         pg.mixer.music.unpause()
     
     def pause(self) -> None:
+        """Pauses the track audio."""
         pg.mixer.music.pause()
 
     def hit(self, key: str) -> util.NoteState:
+        """
+        Attempts to hit the next note for a given key lane.
+        
+        Args:
+            key (str): The key lane to check (e.g., 'a', 's', 'w', 'd').
+            
+        Returns:
+            util.NoteState: The resulting timing state (PERFECT, GOOD, etc).
+        """
         t_hit = self.time()
         note = self.next(key)
         if note is None:
@@ -71,6 +118,13 @@ class Player:
         return util.NoteState.OPEN
 
     def hit_note(self, note: util.Note, state: util.NoteState) -> None:
+        """
+        Updates internal score, combo, and state counts following a hit/miss.
+        
+        Args:
+            note (util.Note): The note that was processed.
+            state (util.NoteState): The timing result to apply.
+        """
         self.states[note] = state
         self.state_counts[state] += 1
         self.indices[note.key] += 1
@@ -81,11 +135,27 @@ class Player:
             self.best_combo = max(self.best_combo, self.combo)
 
     def next(self, key: str) -> typing.Optional[util.Note]:
+        """
+        Provides the next unplayed note for the specified key lane.
+        
+        Args:
+            key (str): The key lane to check.
+            
+        Returns:
+            typing.Optional[util.Note]: The next note if available, else None.
+        """
         if self.indices[key] >= len(self.channels[key]):
             return None
         return util.Note(self.channels[key][self.indices[key]], key)
 
     def update(self) -> util.NoteState:
+        """
+        Automated check for missed notes. 
+        Promotes notes to MISSED if the current time has passed their hit window.
+        
+        Returns:
+            util.NoteState: MISSED if at least one note was missed, else OPEN.
+        """
         t_play = self.time()
         missed = False
         for key in util.KEYS:
@@ -99,48 +169,75 @@ class Player:
     
     @property
     def acc(self) -> float:
+        """
+        Calculates the weighted accuracy percentage (0.0 to 1.0).
+        
+        Returns:
+            float: Percentage success rate (PERFECT + 0.5 * GOOD) / TOTAL.
+        """
         n_played = sum(self.state_counts.values())
         if not n_played:
             return 1.0
         return (self.state_counts[util.NoteState.PERFECT] + 0.5 * self.state_counts[util.NoteState.GOOD]) / n_played
 
 class PauseModule(dg.Module):
+    """
+    A TUI module for the in-game pause and results menu.
+    Displays track stats, score, combo, and accuracy.
+    
+    Attributes:
+        parent (PlayerModule): Reference to the gameplay module.
+        selector_a (menus.SelectorModule): Menu for pausing mid-track.
+        selector_b (menus.SelectorModule): Menu for results after completion.
+        is_open (bool): Whether the pause menu is currently active.
+    """
     def __init__(
         self,
         parent: "PlayerModule", 
     ) -> None:
+        """
+        Initializes the pause menu with selectors for resuming, restarting, 
+        or quitting.
+        
+        Args:
+            parent (PlayerModule): The parent gameplay module.
+        """
         super().__init__(parent, box=[4, 19, 18, 62])
         self.parent = parent
         self.selector_a = menus.SelectorModule(
             self,
             [3, 2, 7, 14],
             {
-                "Resume": parent.start_play,
-                "Restart": parent.restart_play,
-                "Settings": lambda: (parent.settings.start(), parent.settings.selector.reset()),
-                "Quit": parent.close,
+                "Resume": menus.MenuOption(on_w=parent.start_play),
+                "Restart": menus.MenuOption(on_w=parent.restart_play),
+                "Settings": menus.MenuOption(on_w=lambda: (parent.settings.start(), parent.settings.selector.reset())),
+                "Quit": menus.MenuOption(on_w=parent.close),
             }
         )
         self.selector_b = menus.SelectorModule(
             self,
             [3, 2, 6, 14],
             {
-                "Restart": parent.restart_play,
-                "Settings": lambda: (parent.settings.start(), parent.settings.selector.reset()),
-                "Quit": parent.close,
+                "Restart": menus.MenuOption(on_w=parent.restart_play),
+                "Settings": menus.MenuOption(on_w=lambda: (parent.settings.start(), parent.settings.selector.reset())),
+                "Quit": menus.MenuOption(on_w=parent.close),
             }
         )
 
         self.is_open = True
     
     def open(self) -> None:
+        """Opens the pause menu and starts its internal logic."""
         self.is_open = True
         self.start()
 
     def close(self) -> None:
+        """Closes the pause menu and stops its internal logic."""
         self.is_open = False
+        self.stop()
     
     def _tick(self) -> None:
+        """Updates the active selector based on whether the track is finished."""
         if self.parent.done:
             self.selector_a.stop()
             self.selector_b.start()
@@ -150,6 +247,7 @@ class PauseModule(dg.Module):
             self.selector_b.stop()
     
     def _draw(self) -> None:
+        """Draws the pause/results screen, stats, and track metadata."""
         util.draw_border(self.grid)
         track_player = self.parent.track_player
         track = track_player.track
@@ -190,6 +288,15 @@ class PauseModule(dg.Module):
         stats_grid.print("FAILED:", track_player.state_counts[util.NoteState.FAILED] + track_player.state_counts[util.NoteState.MISSED], pos=(12, 3))
 
     def _handle_event(self, event: dg.Event) -> bool:
+        """
+        Handles resuming the game from the pause menu via 's' or space.
+        
+        Args:
+            event (dg.Event): The event to handle.
+            
+        Returns:
+            bool: True if the event was handled, False otherwise.
+        """
         if isinstance(event, dg.KeyEvent):
             if event.key in [" ", "s"]:
                 self.parent.start_play()
@@ -197,12 +304,35 @@ class PauseModule(dg.Module):
         return False
     
 class PlayerModule(dg.Module):
+    """
+    TUI Module that hosts the Player logic and manages the gameplay UI.
+    
+    Attributes:
+        track_player (typing.Optional[Player]): The active rhythm logic 
+            handler.
+        settings (settings.SettingsModule): Reference to game settings.
+        pause_menu (PauseModule): The in-game overlays for pausing/results.
+        t_start (float): Real-world timestamp for track start (with countdown).
+        cur_msg (typing.Optional[tuple]): The message currently being displayed.
+        t_msgclear (float): Track time when the current message should clear.
+        t_hitclear (dict[str, float]): Track time when each lane's hit flash 
+            should clear.
+    """
     def __init__(
         self,
         parent: dg.Module, 
         settings: settings.SettingsModule,
         track: typing.Optional[util.Track] = None,
     ) -> None:
+        """
+        Initializes the PlayerModule, setting up the pause menu and internal timing.
+        
+        Args:
+            parent (dg.Module): The parent display_grid module.
+            settings (settings.SettingsModule): Shared game settings.
+            track (typing.Optional[util.Track]): Optional track to load 
+                immediately.
+        """
         super().__init__(parent)
         self.track_player = None if track is None else Player(track)
         self.settings = settings
@@ -219,14 +349,27 @@ class PlayerModule(dg.Module):
 
     @property
     def done(self) -> bool:
+        """
+        Returns True if the current track has finished playing.
+        
+        Returns:
+            bool: True if track time >= track length.
+        """
         return self.track_player.time() >= self.track_player.track.length
     
     def load_track(self, track: util.Track) -> None:
+        """
+        Initializes the Player with a new track and starts playback.
+        
+        Args:
+            track (util.Track): The track to load.
+        """
         self.track_player = Player(track)
         self.track_player.pause()
         self.start_play()
 
     def start_play(self) -> None:
+        """Triggers the start of gameplay with a 1.5s countdown."""
         self.pause_menu.stop()
         self.t_start = time.time() + 1.5
 
@@ -235,6 +378,7 @@ class PlayerModule(dg.Module):
         self.t_hitclear = {key: float("-inf") for key in util.KEYS}
     
     def stop_play(self) -> None:
+        """Pauses gameplay and opens the pause menu."""
         if self.pause_menu.paused:
             self.pause_menu.start()
             self.pause_menu.selector_a.reset()
@@ -246,12 +390,15 @@ class PlayerModule(dg.Module):
             self.t_msgclear = -1
 
     def restart_play(self) -> None:
+        """Restarts the currently loaded track from the beginning."""
         self.track_player.pause()
         self.load_track(self.track_player.track)
         self.start_play()
 
     def close(self) -> None:
-        self.track_player.pause()
+        """Stops playback and returns to the previous module (level select)."""
+        if self.track_player:
+            self.track_player.pause()
         self.stop()
         self.parent.preview()
 
@@ -263,10 +410,21 @@ class PlayerModule(dg.Module):
         bg: typing.Optional[tuple[int, int, int]] = None,
         attrs: typing.Optional[int] = None,
     ) -> None:
+        """
+        Displays a temporary status message (e.g., 'PERFECT') for a duration.
+        
+        Args:
+            msg (str): The text message to display.
+            dur (float): Duration to show the message in seconds (track time).
+            fg (typing.Optional[tuple[int, int, int]]): Foreground color.
+            bg (typing.Optional[tuple[int, int, int]]): Background color.
+            attrs (typing.Optional[int]): Style attributes.
+        """
         self.cur_msg = msg, fg, bg, attrs
         self.t_msgclear = self.track_player.time() + dur
 
     def _tick(self) -> None:
+        """Main gameplay update loop: handles audio volume, countdowns, and failed notes."""
         t_real = time.time()
         t_play = self.track_player.time()
 
@@ -286,6 +444,17 @@ class PlayerModule(dg.Module):
 
         
     def _handle_event(self, event: dg.Event) -> bool:
+        """
+        Handles in-game key presses for hitting notes and pausing.
+        - Space: Stop play and open pause menu.
+        - Lane Keys: Trigger lane hit check.
+        
+        Args:
+            event (dg.Event): The event to handle.
+            
+        Returns:
+            bool: True if the event was handled, False otherwise.
+        """
         t_play = self.track_player.time()
         if isinstance(event, dg.KeyEvent):
             if event.key == " ":
@@ -304,6 +473,14 @@ class PlayerModule(dg.Module):
         return False
     
     def _draw_channel(self, key: str, t_play: float) -> None:
+        """
+        Draws a single note channel, including the lane line, arrows, 
+        and falling notes.
+        
+        Args:
+            key (str): The lane key identifier.
+            t_play (float): Current track playback time in seconds.
+        """
         col = 16 + 16 * util.KEYS.index(key)
         self.grid.chars[3:-5, col] = ord("|")
         self.grid.chars[-5, col] = ord("*")
@@ -354,6 +531,7 @@ class PlayerModule(dg.Module):
                 self.grid.chars[loc_int + 1, col] = char
     
     def _draw(self) -> None:
+        """Draws the complete gameplay UI: stats bar, channels, countdown, and waveforms."""
         t_real = time.time()
         t_play = self.track_player.time()
 
@@ -389,16 +567,19 @@ class PlayerModule(dg.Module):
             self.grid.stamp("num_3", 4, 38)
 
         # waveform
-        vis_frame = self.track_player.track.vis[int(t_play * 90)]
-        for i, y in enumerate(vis_frame[:15]):
-            y = int(12 * y ** 1.5)
-            self.grid.chars[i + 4, 2: y + 2] = ord("#")
-            self.grid.chars[i + 4, 77 - y: 77] = ord("#")
+        if self.track_player.track.vis is not None:
+            vis_idx = int(t_play * 90)
+            if 0 <= vis_idx < len(self.track_player.track.vis):
+                vis_frame = self.track_player.track.vis[vis_idx]
+                for i, y in enumerate(vis_frame[:15]):
+                    y = int(12 * y ** 1.5)
+                    self.grid.chars[i + 4, 2: y + 2] = ord("#")
+                    self.grid.chars[i + 4, 77 - y: 77] = ord("#")
 
-        for i, y in enumerate(vis_frame[15:]):
-            y = int(12 * y ** 1.5)
-            self.grid.chars[i + 20, 2: y + 2] = ord("#")
-            self.grid.chars[i + 20, 77 - y: 77] = ord("#")
+                for i, y in enumerate(vis_frame[15:]):
+                    y = int(12 * y ** 1.5)
+                    self.grid.chars[i + 20, 2: y + 2] = ord("#")
+                    self.grid.chars[i + 20, 77 - y: 77] = ord("#")
 
         # playback
         time_str = "{} / {}".format(

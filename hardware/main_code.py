@@ -1,5 +1,10 @@
-# input CircuitPython script for an AdaFruit CPX or CPB
+"""
+Main input controller for LKRhythm2 hardware pads.
 
+This script runs on a CircuitPython-compatible board (CPX or CPB) and 
+translates physical touch pad inputs into HID keyboard signals ('a', 's', 'w', 'd').
+It uses debouncing to ensure clean signals even with high-latency touch sensors.
+"""
 import board
 import touchio
 import usb_hid
@@ -9,20 +14,17 @@ from adafruit_debouncer import Debouncer
 
 # --- Configuration ---
 
-THRESHOLD = 3000
-DELAY = 0.002
+THRESHOLD = 3000  # Raw touch value threshold for a "press"
+DELAY = 0.005     # Debounce interval in seconds
 
-# 1. Initialize the Keyboard device
+# 1. Initialize the Keyboard device via USB HID
 kbd = Keyboard(usb_hid.devices)
 
 # 2. Define our 4 pads (Rhythm Game Layout)
-# We will create a list of debouncer objects.
-# The Debouncer library handles all the complex timing and state.
+# We will create a list of debouncer-wrapped pad objects for easy iteration.
 DEBOUNCERS = []
 
-# --- 3. Pad Setup & Manual Thresholds ---
-# We create the TouchIn object, set its threshold,
-# and then pass it to a Debouncer.
+# --- 3. Pad Setup & Hardware Detection ---
 
 CPX_ID = "circuitplayground_express"
 CPB_ID = "circuitplayground_bluefruit"
@@ -36,12 +38,13 @@ if board.board_id == CPB_ID:
     ]
 else:
     pads = [
-        ("A4", touchio.TouchIn(board.A4)),
         ("A5", touchio.TouchIn(board.A5)),
-        ("A6", touchio.TouchIn(board.A6)),
         ("A7", touchio.TouchIn(board.A7)),
+        ("A3", touchio.TouchIn(board.A3)),
+        ("A1", touchio.TouchIn(board.A1)),
     ]
 
+# Setup individual pads with their respective key mappings
 # --- Pad 1 (Up/W) ---
 touch_in_w = pads[0][1]
 touch_in_w.threshold = THRESHOLD
@@ -79,37 +82,29 @@ DEBOUNCERS.append({
 })
 
 
-print("--- CPX DDR Pad Controller ---")
+print("--- CPX/CPB Pad Controller ---")
 print("Native HID device initialized. Ready for input.")
-print("Remember: Player must be connected to GND pad.")
-print("Mode: Tap-Only (Debouncer Library)")
+print("Note: Ensure user is connected to the common ground pad.")
+print("Mode: Debounced Tap-Only")
 
-# --- Main Loop ---
-# This loop runs as fast as possible for minimum latency.
+# --- Main Logic Loop ---
+# This loop polls sensors as fast as possible to minimize input latency.
 while True:
-    # Loop through all 4 of our configured pads
     for item in DEBOUNCERS:
         
         pad = item["pad"]
         
-        # 1. Update the debouncer state
-        # This MUST be called on every loop
+        # Poll the sensor state via the debouncer
         pad.update()
 
-        # 2. Check for a NEW PRESS (Foot Down)
-        # 'pad.rose' is True for only one loop when the
-        # debounced state changes from False to True.
-        # This inherently handles all press AND release bounce.
+        # Check for a transition from "untouched" to "touched"
+        # Since touchio values drop on touch, we use .fell for a "press"
         if pad.fell:
             
-            # --- This is a VALID new press ---
-            
+            # Print feedback to the serial console
             print(f"TAP: {item['name']}")
             
-            # 3. Send the key press
+            # Send an immediate tap event to the host computer
             kbd.press(item["key"])
             kbd.release(item["key"])
-        
-        # 'pad.fell' (True on release) is also available,
-        # but we don't need it for this logic.a
 
